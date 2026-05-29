@@ -4,9 +4,14 @@ const cors = require('cors');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 const env = require('./config/env');
 const loggerMiddleware = require('./middleware/logger.middleware');
+
+// Load Swagger document
+const swaggerDocument = YAML.load(path.join(__dirname, 'config', 'swagger.yaml'));
 const { errorHandler, notFound } = require('./middleware/error.middleware');
 const { defaultLimiter } = require('./middleware/rateLimiter.middleware');
 
@@ -67,6 +72,11 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// ============================================
+// Documentation
+// ============================================
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // ============================================
 // API Routes
