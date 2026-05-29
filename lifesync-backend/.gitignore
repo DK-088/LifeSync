@@ -1,0 +1,13 @@
+node_modules/
+.env
+dist/
+uploads/bills/*
+uploads/voice/*
+uploads/temp/*
+!uploads/bills/.gitkeep
+!uploads/voice/.gitkeep
+!uploads/temp/.gitkeep
+*.log
+logs/
+coverage/
+.DS_Store

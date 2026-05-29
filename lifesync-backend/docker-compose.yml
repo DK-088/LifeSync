@@ -1,0 +1,55 @@
+version: '3.9'
+
+services:
+  # LifeSync AI Backend API
+  api:
+    build: .
+    container_name: lifesync-api
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/lifesync
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    networks:
+      - lifesync-network
+
+  # MongoDB
+  mongo:
+    image: mongo:7.0
+    container_name: lifesync-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - lifesync-network
+
+  # MongoDB Admin UI (optional)
+  mongo-express:
+    image: mongo-express
+    container_name: lifesync-mongo-ui
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/lifesync
+    depends_on:
+      - mongo
+    networks:
+      - lifesync-network
+
+volumes:
+  mongo-data:
+
+networks:
+  lifesync-network:
+    driver: bridge
