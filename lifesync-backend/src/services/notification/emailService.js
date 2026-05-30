@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const path = require('path');
 const logger = require('../../utils/logger');
 const env = require('../../config/env');
 
@@ -86,12 +88,23 @@ const sendEmail = async (options) => {
       return { success: true, consoleOnly: true };
     }
 
+    const attachments = [];
+    const logoPath = path.join(__dirname, '../../../../lifesync-mobile/assets/LifeSync_logo.png');
+    if (fs.existsSync(logoPath)) {
+      attachments.push({
+        filename: 'LifeSync_logo.png',
+        path: logoPath,
+        cid: 'lifesynclogo',
+      });
+    }
+
     const mailOptions = {
       from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
       to,
       subject,
       text: text || 'LifeSync verification code request',
       html,
+      attachments,
     };
 
     const info = await mailClient.sendMail(mailOptions);

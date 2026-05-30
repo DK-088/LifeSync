@@ -59,8 +59,8 @@ npm install
 
 ### 2. Configure Environment
 ```bash
-cp .env .env.local
-# Fill in your MONGO_URI, JWT_SECRET, OPENAI_API_KEY, etc.
+cp .env.example .env
+# Fill in your MONGO_URI, JWT_SECRET, AES_SECRET_KEY, and SMTP credentials.
 ```
 
 ### 3. Run Development Server
@@ -85,6 +85,9 @@ docker-compose up -d
 | POST | `/api/auth/refresh` | Refresh access token |
 | POST | `/api/auth/logout` | Logout |
 | GET | `/api/auth/me` | Get profile |
+| POST | `/api/auth/forgot-password` | Request password reset OTP |
+| POST | `/api/auth/verify-otp` | Verify 6-digit reset code |
+| POST | `/api/auth/reset-password` | Reset password using verified OTP |
 
 ### Expenses
 | Method | Endpoint | Description |
