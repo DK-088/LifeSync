@@ -122,11 +122,10 @@ const DatePicker: React.FC<{
           <button
             type="button"
             onClick={() => { setOpenCalendar(!openCalendar); setOpenTime(false); }}
-            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl border text-[13px] font-medium transition-all cursor-pointer ${
-              openCalendar
+            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl border text-[13px] font-medium transition-all cursor-pointer ${openCalendar
                 ? 'border-[#7C3AED] bg-white ring-4 ring-[#7C3AED]/10 text-[#7C3AED]'
                 : 'border-slate-200 bg-slate-50 hover:bg-slate-100/50 hover:border-slate-300 text-slate-700'
-            }`}
+              }`}
           >
             <Calendar size={14} className={openCalendar ? 'text-[#7C3AED]' : 'text-slate-400'} />
             <span className="truncate">{format(value, 'MMM d, yyyy')}</span>
@@ -170,15 +169,14 @@ const DatePicker: React.FC<{
                         key={idx}
                         type="button"
                         onClick={() => handleDaySelect(day)}
-                        className={`h-7 w-7 rounded-lg text-[12px] font-medium flex items-center justify-center transition-all cursor-pointer ${
-                          active
+                        className={`h-7 w-7 rounded-lg text-[12px] font-medium flex items-center justify-center transition-all cursor-pointer ${active
                             ? 'bg-gradient-to-br from-[#6D3FD8] to-[#9A6BF2] text-white font-bold shadow-sm shadow-[#6D3FD8]/20'
                             : inMonth
-                            ? isTodayDate
-                              ? 'bg-slate-100 text-[#7C3AED] font-semibold hover:bg-slate-200'
-                              : 'text-slate-700 hover:bg-slate-50'
-                            : 'text-slate-300'
-                        }`}
+                              ? isTodayDate
+                                ? 'bg-slate-100 text-[#7C3AED] font-semibold hover:bg-slate-200'
+                                : 'text-slate-700 hover:bg-slate-50'
+                              : 'text-slate-300'
+                          }`}
                       >
                         {format(day, 'd')}
                       </button>
@@ -196,11 +194,10 @@ const DatePicker: React.FC<{
             <button
               type="button"
               onClick={() => { setOpenTime(!openTime); setOpenCalendar(false); }}
-              className={`w-full flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-[13px] font-medium transition-all cursor-pointer ${
-                openTime
+              className={`w-full flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-[13px] font-medium transition-all cursor-pointer ${openTime
                   ? 'border-[#7C3AED] bg-white ring-4 ring-[#7C3AED]/10 text-[#7C3AED]'
                   : 'border-slate-200 bg-slate-50 hover:bg-slate-100/50 hover:border-slate-300 text-slate-700'
-              }`}
+                }`}
             >
               <span>{format(value, 'hh:mm a')}</span>
             </button>
@@ -209,7 +206,7 @@ const DatePicker: React.FC<{
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setOpenTime(false)} />
                 <div className="absolute z-50 mt-1.5 bg-white rounded-2xl border border-slate-100 shadow-[0_10px_40px_rgba(0,0,0,0.08)] w-[160px] right-0 max-h-[220px] overflow-y-auto p-1.5 scrollbar-thin">
-                  {Array.from({ length: 24 }).flatMap((_, h) => 
+                  {Array.from({ length: 24 }).flatMap((_, h) =>
                     [0, 30].map(m => {
                       const dateOpt = setMinutes(setHours(new Date(), h), m);
                       const isSelected = value.getHours() === h && value.getMinutes() === m;
@@ -218,11 +215,10 @@ const DatePicker: React.FC<{
                           key={`${h}-${m}`}
                           type="button"
                           onClick={() => handleTimeSelect(h, m)}
-                          className={`w-full px-3 py-1.5 rounded-lg text-left text-[12px] font-medium transition-colors cursor-pointer ${
-                            isSelected
+                          className={`w-full px-3 py-1.5 rounded-lg text-left text-[12px] font-medium transition-colors cursor-pointer ${isSelected
                               ? 'bg-gradient-to-r from-[#6D3FD8] to-[#9A6BF2] text-white font-semibold'
                               : 'text-slate-700 hover:bg-slate-50'
-                          }`}
+                            }`}
                         >
                           {format(dateOpt, 'hh:mm a')}
                         </button>
@@ -280,7 +276,7 @@ const EventModal: React.FC<ModalProps> = ({ initialDate, existingEvent, onSave, 
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-[20px] border border-slate-100 shadow-2xl p-6 w-full max-w-[500px] mx-1 relative"
+        className="bg-white rounded-[20px] border border-slate-100 shadow-2xl p-6 w-full max-w-[500px] mx-1 relative max-h-[95vh] overflow-y-auto no-scrollbar"
         onClick={e => e.stopPropagation()}
       >
         <button
@@ -438,12 +434,12 @@ const MonthView: React.FC<{
               key={idx}
               onClick={() => onDayClick(day)}
               className={`border-b border-r border-slate-100 p-1.5 flex flex-col gap-1 cursor-pointer transition-all ${isSelected ? 'bg-[#F3EEFF] ring-2 ring-inset ring-[#9A6BF2]/30' :
-                  inMonth ? 'hover:bg-[#FAFBFF]' : 'bg-[#FAFBFD]'
+                inMonth ? 'hover:bg-[#FAFBFF]' : 'bg-[#FAFBFD]'
                 } ${idx % 7 === 0 ? 'border-l-0' : ''}`}
             >
               <span className={`text-[13px] font-semibold self-start w-7 h-7 flex items-center justify-center rounded-full transition-all ${today ? 'bg-gradient-to-br from-[#6D3FD8] to-[#9A6BF2] text-white' :
-                  isSelected ? 'bg-[#7C3AED] text-white' :
-                    inMonth ? 'text-[#383838] hover:text-[#7C3AED]' : 'text-slate-300'
+                isSelected ? 'bg-[#7C3AED] text-white' :
+                  inMonth ? 'text-[#383838] hover:text-[#7C3AED]' : 'text-slate-300'
                 }`}>
                 {format(day, 'd')}
               </span>
@@ -665,8 +661,8 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
             {(['month', 'week', 'day'] as ViewMode[]).map(v => (
               <button key={v} onClick={() => setView(v)}
                 className={`px-4 py-2 rounded-full text-[13px] font-medium capitalize transition-all cursor-pointer ${view === v
-                    ? 'bg-gradient-to-r from-[#6D3FD8] to-[#9A6BF2] text-white shadow-sm'
-                    : 'text-slate-500 hover:text-slate-700'
+                  ? 'bg-gradient-to-r from-[#6D3FD8] to-[#9A6BF2] text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-700'
                   }`}>
                 {v}
               </button>

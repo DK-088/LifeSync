@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* 2. Title Section */}
-      <div className="w-full max-w-[1450px] px-2 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="w-full max-w-[1450px] px-8 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-[36px] font-medium text-[#383838] tracking-tight leading-tight">Finance Dashboard</h1>
           <p className="text-[#383838] text-[15px] font-medium tracking-wide opacity-90 mt-1">Overview of your financial health</p>
@@ -46,15 +46,15 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* 3. Sidebar + Main Content Area */}
-      <div className="w-full max-w-[1450px] px-2 mt-5 flex gap-6 flex-1 pb-10">
+      <div className="w-full max-w-[1450px] px-8 mt-5 flex gap-6 flex-1 pb-10">
         {/* Sidebar */}
         <Sidebar />
 
         {/* Main Content Area */}
-        <div className="flex-1 min-w-0 grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="flex-1 min-w-0 flex flex-col xl:flex-row gap-6">
           
-          {/* Left Column (spans 3 grid columns) */}
-          <div className="xl:col-span-3 flex flex-col gap-6">
+          {/* Left Column (takes remaining space) */}
+          <div className="flex-1 min-w-0 flex flex-col gap-6">
             
             {/* Metric Cards Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -84,7 +84,7 @@ const Dashboard: React.FC = () => {
               />
               <MetricCard
                 title="Cash Balance"
-                amount="₹536,450"
+                amount="₹5,36,450"
                 change="-8.5%"
                 isPositive={false}
                 lastMonthAmount="610560"
@@ -99,8 +99,8 @@ const Dashboard: React.FC = () => {
             <TransactionTable />
           </div>
 
-          {/* Right Column (spans 1 grid column) */}
-          <div className="xl:col-span-1 flex flex-col gap-6">
+          {/* Right Column (fixed width on desktop, full-width on mobile) */}
+          <div className="w-full xl:w-[320px] flex-shrink-0 flex flex-col gap-6">
             <WalletCard />
             <SpendingCard />
           </div>

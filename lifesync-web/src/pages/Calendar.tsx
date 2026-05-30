@@ -188,7 +188,7 @@ export default function CalendarPage() {
       </div>
 
       {/* Title */}
-      <div className="w-full max-w-[1450px] px-2 mt-4">
+      <div className="w-full max-w-[1450px] px-8 mt-4">
         <h1 className="text-[36px] font-medium text-[#383838] tracking-tight leading-tight">Calendar</h1>
         <p className="text-[#383838] text-[15px] font-medium tracking-wide opacity-90 mt-1">
           Manage your schedule and financial milestones
@@ -196,7 +196,7 @@ export default function CalendarPage() {
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-[1450px] px-2 mt-5 flex gap-6 pb-10" style={{ height: 'calc(200vh - 280px)' }}>
+      <div className="w-full max-w-[1450px] px-8 mt-5 flex gap-6 pb-10" style={{ height: 'calc(200vh - 280px)' }}>
         <Sidebar />
 
         {/* Calendar + Detail Panel side-by-side */}

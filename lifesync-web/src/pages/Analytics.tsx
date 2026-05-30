@@ -117,7 +117,7 @@ const Analytics: React.FC = () => {
       </div>
 
       {/* Title Section */}
-      <div className="w-full max-w-[1450px] px-2 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="w-full max-w-[1450px] px-8 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-[36px] font-medium text-[#383838] tracking-tight leading-tight">Analytics</h1>
           <p className="text-[#383838] text-[15px] font-medium tracking-wide opacity-90 mt-1">Deep insights into your financial patterns</p>
@@ -150,7 +150,7 @@ const Analytics: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-[1450px] px-2 mt-5 flex gap-6 flex-1 pb-10">
+      <div className="w-full max-w-[1450px] px-8 mt-5 flex gap-6 flex-1 pb-10">
         <Sidebar />
 
         <div className="flex-1 min-w-0 flex flex-col gap-6">

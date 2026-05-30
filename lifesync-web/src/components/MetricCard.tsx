@@ -26,8 +26,8 @@ const MetricCard: React.FC<MetricCardProps> = ({
       {/* Floating Button */}
       <div
         className={`absolute -top-1 -right-1 w-10 h-10 rounded-full flex items-center justify-center z-20 ${isPurple
-            ? 'bg-[#8B5CF6] text-white'
-            : 'bg-white text-[#383838]/60'
+          ? 'bg-[#8B5CF6] text-white'
+          : 'bg-white text-[#383838]/60'
           }`}
       >
         <ArrowUpRight size={18} strokeWidth={2} />
@@ -35,9 +35,9 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
       {/* Card with radial-gradient mask cutout */}
       <div
-        className={`relative rounded-[28px] px-8 py-7 h-[175px] flex flex-col justify-between overflow-hidden ${isPurple
-            ? 'text-white'
-            : 'border border-slate-100/80 shadow-[0_4px_30px_rgb(0,0,0,0.03)]'
+        className={`relative rounded-[28px] px-5 py-6 h-[175px] flex flex-col justify-between overflow-hidden ${isPurple
+          ? 'text-white'
+          : 'border border-slate-100/80 shadow-[0_4px_30px_rgb(0,0,0,0.03)]'
           }`}
         style={{
           maskImage: 'radial-gradient(circle 16px at calc(100% - 71.8px) 16px, #000 98%, transparent 100%), radial-gradient(circle 16px at calc(100% - 16px) 71.8px, #000 98%, transparent 100%), radial-gradient(circle 60px at calc(100% + 2px) -2px, transparent 98%, #000)',
@@ -66,7 +66,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
         {/* === Title === */}
         <p
-          className={`text-[15px] font-medium relative z-10 ${isPurple ? 'text-white' : 'text-[#383838]/60'
+          className={`text-[15px] font-medium relative z-10 ${isPurple ? 'text-white' : 'text-[#383838]/80'
             }`}
         >
           {title}
@@ -74,32 +74,30 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
         {/* === Bottom: Amount + Change Badge + Last Month === */}
         <div className="relative z-10">
-          <div className="flex items-baseline gap-3">
+          <div className="flex items-center gap-2">
             <h2
-              className={`text-[30px] font-semibold tracking-tight leading-none ${isPurple ? 'text-white' : 'text-[#383838]'
+              className={`text-[24px] font-semibold tracking-normal leading-none ${isPurple ? 'text-white' : 'text-[#383838]'
                 }`}
             >
               {amount.startsWith('₹') ? (
                 <>
-                  <span>₹</span><span style={{ marginLeft: '3px' }}>{amount.slice(1)}</span>
+                  <span>₹</span><span style={{ marginLeft: '2.5px' }}>{amount.slice(1)}</span>
                 </>
               ) : amount}
             </h2>
             <span
-              className={`text-[12px] font-semibold px-2.5 py-0.5 rounded-full ${
-                isPurple
+              className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0 ${isPurple
                   ? `bg-white ${isPositive ? 'text-green-600' : 'text-red-600'}`
                   : isPositive
                     ? 'text-green-600 bg-green-50'
                     : 'text-red-500 bg-red-50'
-              }`}
+                }`}
             >
               {change}
             </span>
           </div>
           <p
-            className={`text-[13px] font-medium mt-2 ${isPurple ? 'text-white' : 'text-[#383838]'
-              }`}
+            className={`text-[12px] font-medium mt-1.5 ${isPurple ? 'text-white/80' : 'text-slate-400'}`}
           >
             vs last month ₹ {lastMonthAmount}
           </p>
