@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom';
 const navItems = [
   { label: 'Dashboard', to: '/dashboard' },
   { label: 'Analytics', to: '/analytics' },
+  { label: 'Calendar', to: '/calendar' },
   { label: 'Invoice', to: '/invoice' },
   { label: 'Joint Savings', to: '/savings' },
-  { label: 'Calendar', to: '/calendar' },
 ];
 
 const Header: React.FC = () => {
