@@ -130,10 +130,10 @@ const sampleEvents: CalendarEvent[] = [
 
 // ─── Sample Expenses (keyed by day-of-month for demo) ─────────────────────────
 const EXPENSE_POOL: Record<number, { label: string; amount: string; type: 'debit' | 'credit'; category: string }[]> = {
-  1:  [{ label: 'Netflix', amount: '₹ 649', type: 'debit', category: 'Entertainment' }],
-  3:  [{ label: 'Salary Credit', amount: '₹ 85,000', type: 'credit', category: 'Income' }, { label: 'Gym Membership', amount: '₹ 1,200', type: 'debit', category: 'Health' }],
-  5:  [{ label: 'Grocery Store', amount: '₹ 2,340', type: 'debit', category: 'Food' }],
-  8:  [{ label: 'Electricity Bill', amount: '₹ 1,840', type: 'debit', category: 'Utilities' }, { label: 'Freelance', amount: '₹ 12,000', type: 'credit', category: 'Income' }],
+  1: [{ label: 'Netflix', amount: '₹ 649', type: 'debit', category: 'Entertainment' }],
+  3: [{ label: 'Salary Credit', amount: '₹ 85,000', type: 'credit', category: 'Income' }, { label: 'Gym Membership', amount: '₹ 1,200', type: 'debit', category: 'Health' }],
+  5: [{ label: 'Grocery Store', amount: '₹ 2,340', type: 'debit', category: 'Food' }],
+  8: [{ label: 'Electricity Bill', amount: '₹ 1,840', type: 'debit', category: 'Utilities' }, { label: 'Freelance', amount: '₹ 12,000', type: 'credit', category: 'Income' }],
   10: [{ label: 'Rent Payment', amount: '₹ 18,000', type: 'debit', category: 'Housing' }],
   13: [{ label: 'Amazon Order', amount: '₹ 3,499', type: 'debit', category: 'Shopping' }],
   15: [{ label: 'Internet Bill', amount: '₹ 799', type: 'debit', category: 'Utilities' }],
@@ -153,12 +153,12 @@ const COLOR_MAP_EXT: Record<string, string> = {
 
 // ─── Calendar Page ────────────────────────────────────────────────────────────
 export default function CalendarPage() {
-  const [events,       setEvents]       = useState<CalendarEvent[]>(sampleEvents);
+  const [events, setEvents] = useState<CalendarEvent[]>(sampleEvents);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const handleEventAdd    = (event: CalendarEvent) => setEvents(prev => [...prev, event]);
-  const handleEventUpdate = (ev: CalendarEvent)    => setEvents(prev => prev.map(e => e.id === ev.id ? ev : e));
-  const handleEventDelete = (id: string)           => setEvents(prev => prev.filter(e => e.id !== id));
+  const handleEventAdd = (event: CalendarEvent) => setEvents(prev => [...prev, event]);
+  const handleEventUpdate = (ev: CalendarEvent) => setEvents(prev => prev.map(e => e.id === ev.id ? ev : e));
+  const handleEventDelete = (id: string) => setEvents(prev => prev.filter(e => e.id !== id));
 
   const handleDaySelect = (date: Date | null) => {
     // toggle off if clicking the same day
@@ -168,10 +168,10 @@ export default function CalendarPage() {
   // Events for selected date
   const dayEvents = selectedDate
     ? events.filter(ev =>
-        ev.allDay
-          ? selectedDate >= new Date(ev.start.toDateString()) && selectedDate <= new Date(ev.end.toDateString())
-          : ev.start.toDateString() === selectedDate.toDateString()
-      )
+      ev.allDay
+        ? selectedDate >= new Date(ev.start.toDateString()) && selectedDate <= new Date(ev.end.toDateString())
+        : ev.start.toDateString() === selectedDate.toDateString()
+    )
     : [];
 
   // Expenses for selected date (keyed by day number for demo)
@@ -249,7 +249,7 @@ export default function CalendarPage() {
                   <div>
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-[15px] font-medium text-[#383838]">Events</h3>
-                      <span className="text-[12px] font-bold px-2.5 py-1 rounded-full bg-[#EDE9FE] text-[#7C3AED]">
+                      <span className="text-[12px] font-bold px-2.5 py-0.5 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] border border-[#7C3AED]/20">
                         {dayEvents.length} Scheduled
                       </span>
                     </div>
@@ -264,10 +264,10 @@ export default function CalendarPage() {
                           const c = COLOR_MAP_EXT[ev.color ?? 'violet'] ?? '#7C3AED';
                           return (
                             <div key={ev.id} className="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-100 hover:border-slate-200 transition-all">
-                              <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: c }} />
+                              <div className="w-0.5 h-10 rounded-full flex-shrink-0" style={{ background: c }} />
                               <div className="flex-1 min-w-0">
-                                <p className="text-[13px] font-semibold text-[#383838] truncate">{ev.title}</p>
-                                <p className="text-[11px] text-slate-400 mt-0.5">
+                                <p className="text-[14px] font-semibold text-[#383838] truncate">{ev.title}</p>
+                                <p className="text-[12px] text-slate-400 mt-0.5">
                                   {ev.allDay ? 'All day' : `${ev.start.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} – ${ev.end.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}`}
                                   {ev.location && ` · ${ev.location}`}
                                 </p>
@@ -290,7 +290,7 @@ export default function CalendarPage() {
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-[15px] font-medium text-[#383838]">Expenses</h3>
                       {dayExpenses.length > 0 && (
-                        <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#ECFDF5] text-[#059669]">
+                        <span className="text-[12px] font-bold px-2.5 py-0.5 rounded-full bg-[#059669]/10 text-[#059669] border border-[#059669]/20">
                           {dayExpenses.length} Transaction{dayExpenses.length > 1 ? 's' : ''}
                         </span>
                       )}
@@ -305,9 +305,8 @@ export default function CalendarPage() {
                         {dayExpenses.map((exp, i) => (
                           <div key={i} className="flex items-center justify-between p-3.5 rounded-2xl border border-slate-100 hover:border-slate-200 transition-all">
                             <div className="flex items-center gap-3">
-                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-[13px] flex-shrink-0 ${
-                                exp.type === 'credit' ? 'bg-[#ECFDF5]' : 'bg-[#F6F8F9]'
-                              }`}>
+                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-[13px] flex-shrink-0 ${exp.type === 'credit' ? 'bg-[#ECFDF5]' : 'bg-[#F6F8F9]'
+                                }`}>
                                 {exp.type === 'credit' ? '↑' : '↓'}
                               </div>
                               <div>
