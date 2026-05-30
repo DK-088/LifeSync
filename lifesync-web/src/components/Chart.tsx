@@ -57,7 +57,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
           </div>
 
           <span className="font-semibold text-slate-900">
-            ${Number(payload[1]?.value).toLocaleString()}
+            ₹{Number(payload[1]?.value).toLocaleString()}
           </span>
         </div>
 
@@ -70,7 +70,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
           </div>
 
           <span className="font-semibold text-slate-900">
-            ${Number(payload[0]?.value).toLocaleString()}
+            ₹{Number(payload[0]?.value).toLocaleString()}
           </span>
         </div>
       </div>
@@ -84,7 +84,7 @@ const Chart: React.FC = () => {
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h2 className="text-[28px] font-semibold text-slate-900">
+          <h2 className="text-[24px] font-semibold text-slate-900">
             Performance Overview
           </h2>
 
@@ -116,7 +116,7 @@ const Chart: React.FC = () => {
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
-            barGap={-36}
+            barGap={-58}
             margin={{
               top: 10,
               right: 10,

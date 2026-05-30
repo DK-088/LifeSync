@@ -25,25 +25,23 @@ const MetricCard: React.FC<MetricCardProps> = ({
       {/* Floating Action Button — sits in the cutout */}
       {/* Floating Button */}
       <div
-        className={`absolute -top-1 left-70 w-10 h-10 rounded-full flex items-center justify-center z-20 ${
-          isPurple
+        className={`absolute -top-1 -right-1 w-10 h-10 rounded-full flex items-center justify-center z-20 ${isPurple
             ? 'bg-[#8B5CF6] text-white'
             : 'bg-white text-[#383838]/60'
-        }`}
+          }`}
       >
         <ArrowUpRight size={18} strokeWidth={2} />
       </div>
 
       {/* Card with radial-gradient mask cutout */}
       <div
-        className={`relative rounded-[28px] px-8 py-7 h-[175px] flex flex-col justify-between overflow-hidden ${
-          isPurple
+        className={`relative rounded-[28px] px-8 py-7 h-[175px] flex flex-col justify-between overflow-hidden ${isPurple
             ? 'text-white'
             : 'border border-slate-100/80 shadow-[0_4px_30px_rgb(0,0,0,0.03)]'
-        }`}
+          }`}
         style={{
-          mask: 'radial-gradient(60px at calc(100% + 2px) -2px, transparent 98%, #000)',
-          WebkitMask: 'radial-gradient(60px at calc(100% + 2px) -2px, transparent 98%, #000)',
+          maskImage: 'radial-gradient(circle 16px at calc(100% - 71.8px) 16px, #000 98%, transparent 100%), radial-gradient(circle 16px at calc(100% - 16px) 71.8px, #000 98%, transparent 100%), radial-gradient(circle 60px at calc(100% + 2px) -2px, transparent 98%, #000)',
+          WebkitMaskImage: 'radial-gradient(circle 16px at calc(100% - 71.8px) 16px, #000 98%, transparent 100%), radial-gradient(circle 16px at calc(100% - 16px) 71.8px, #000 98%, transparent 100%), radial-gradient(circle 60px at calc(100% + 2px) -2px, transparent 98%, #000)',
           background: isPurple
             ? 'linear-gradient(135deg, #7B4FE0 0%, #8B5CF6 50%, #A87FFB 100%)'
             : '#ffffff',
@@ -68,9 +66,8 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
         {/* === Title === */}
         <p
-          className={`text-[15px] font-medium relative z-10 ${
-            isPurple ? 'text-white' : 'text-[#383838]/60'
-          }`}
+          className={`text-[15px] font-medium relative z-10 ${isPurple ? 'text-white' : 'text-[#383838]/60'
+            }`}
         >
           {title}
         </p>
@@ -79,30 +76,32 @@ const MetricCard: React.FC<MetricCardProps> = ({
         <div className="relative z-10">
           <div className="flex items-baseline gap-3">
             <h2
-              className={`text-[34px] font-semibold tracking-tight leading-none ${
-                isPurple ? 'text-white' : 'text-[#383838]'
-              }`}
+              className={`text-[30px] font-semibold tracking-tight leading-none ${isPurple ? 'text-white' : 'text-[#383838]'
+                }`}
             >
-              {amount}
+              {amount.startsWith('₹') ? (
+                <>
+                  <span>₹</span><span style={{ marginLeft: '3px' }}>{amount.slice(1)}</span>
+                </>
+              ) : amount}
             </h2>
             <span
               className={`text-[12px] font-semibold px-2.5 py-0.5 rounded-full ${
-                isPositive
-                  ? isPurple
-                    ? 'text-green-200 bg-green-400/20'
-                    : 'text-green-600 bg-green-50'
-                  : 'text-red-500 bg-red-50'
+                isPurple
+                  ? `bg-white ${isPositive ? 'text-green-600' : 'text-red-600'}`
+                  : isPositive
+                    ? 'text-green-600 bg-green-50'
+                    : 'text-red-500 bg-red-50'
               }`}
             >
               {change}
             </span>
           </div>
           <p
-            className={`text-[13px] font-medium mt-2 ${
-              isPurple ? 'text-white' : 'text-[#383838]'
-            }`}
+            className={`text-[13px] font-medium mt-2 ${isPurple ? 'text-white' : 'text-[#383838]'
+              }`}
           >
-            vs last month $ {lastMonthAmount}
+            vs last month ₹ {lastMonthAmount}
           </p>
         </div>
       </div>

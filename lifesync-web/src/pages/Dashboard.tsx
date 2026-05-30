@@ -2,6 +2,10 @@ import React from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import MetricCard from '../components/MetricCard';
+import Chart from '../components/Chart';
+import WalletCard from '../components/WalletCard';
+import SpendingCard from '../components/SpendingCard';
+import TransactionTable from '../components/TransactionTable';
 import { Calendar, Plus, ChevronDown } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
@@ -47,41 +51,60 @@ const Dashboard: React.FC = () => {
         <Sidebar />
 
         {/* Main Content Area */}
-        <div className="flex-1 min-w-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <MetricCard
-              title="Total Revenue"
-              amount="$125,430"
-              change="12.5%"
-              isPositive={true}
-              lastMonthAmount="122320"
-              variant="purple"
-            />
-            <MetricCard
-              title="Total Expenses"
-              amount="$68,240"
-              change="-8.5%"
-              isPositive={false}
-              lastMonthAmount="90,860"
-              variant="white"
-            />
-            <MetricCard
-              title="Total Expenses"
-              amount="$68,240"
-              change="-8.5%"
-              isPositive={false}
-              lastMonthAmount="90,860"
-              variant="white"
-            />
-            <MetricCard
-              title="Total Expenses"
-              amount="$68,240"
-              change="-8.5%"
-              isPositive={false}
-              lastMonthAmount="90,860"
-              variant="white"
-            />
+        <div className="flex-1 min-w-0 grid grid-cols-1 xl:grid-cols-4 gap-6">
+          
+          {/* Left Column (spans 3 grid columns) */}
+          <div className="xl:col-span-3 flex flex-col gap-6">
+            
+            {/* Metric Cards Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <MetricCard
+                title="Total Revenue"
+                amount="₹12,5434"
+                change="+12.5%"
+                isPositive={true}
+                lastMonthAmount="122320"
+                variant="purple"
+              />
+              <MetricCard
+                title="Total Expenses"
+                amount="₹68,240"
+                change="-8.5%"
+                isPositive={false}
+                lastMonthAmount="90,860"
+                variant="white"
+              />
+              <MetricCard
+                title="Net Profit"
+                amount="₹57,190"
+                change="+12.5%"
+                isPositive={true}
+                lastMonthAmount="72320"
+                variant="white"
+              />
+              <MetricCard
+                title="Cash Balance"
+                amount="₹536,450"
+                change="-8.5%"
+                isPositive={false}
+                lastMonthAmount="610560"
+                variant="white"
+              />
+            </div>
+
+            {/* Performance Overview Chart */}
+            <Chart />
+
+            {/* All Transactions Table */}
+            <TransactionTable />
           </div>
+
+          {/* Right Column (spans 1 grid column) */}
+          <div className="xl:col-span-1 flex flex-col gap-6">
+            <WalletCard />
+            <SpendingCard />
+          </div>
+
         </div>
       </div>
 
