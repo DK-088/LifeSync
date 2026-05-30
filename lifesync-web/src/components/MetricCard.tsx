@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, type LucideIcon } from 'lucide-react';
 
 interface MetricCardProps {
   title: string;
@@ -8,6 +8,7 @@ interface MetricCardProps {
   isPositive: boolean;
   lastMonthAmount: string;
   variant?: 'purple' | 'white';
+  icon?: LucideIcon;
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({
@@ -17,20 +18,20 @@ const MetricCard: React.FC<MetricCardProps> = ({
   isPositive,
   lastMonthAmount,
   variant = 'white',
+  icon: Icon,
 }) => {
   const isPurple = variant === 'purple';
 
   return (
     <div className="relative">
       {/* Floating Action Button — sits in the cutout */}
-      {/* Floating Button */}
       <div
-        className={`absolute -top-1 -right-1 w-10 h-10 rounded-full flex items-center justify-center z-20 ${isPurple
+        className={`absolute -top-1 -right-1 w-11 h-11 rounded-full flex items-center justify-center z-20 ${isPurple
           ? 'bg-[#8B5CF6] text-white'
           : 'bg-white text-[#383838]/60'
           }`}
       >
-        <ArrowUpRight size={18} strokeWidth={2} />
+        {Icon ? <Icon size={18} strokeWidth={2} /> : <ArrowUpRight size={18} strokeWidth={2} />}
       </div>
 
       {/* Card with radial-gradient mask cutout */}
@@ -87,10 +88,10 @@ const MetricCard: React.FC<MetricCardProps> = ({
             </h2>
             <span
               className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0 ${isPurple
-                  ? `bg-white ${isPositive ? 'text-green-600' : 'text-red-600'}`
-                  : isPositive
-                    ? 'text-green-600 bg-green-50'
-                    : 'text-red-500 bg-red-50'
+                ? `bg-white ${isPositive ? 'text-green-600' : 'text-red-600'}`
+                : isPositive
+                  ? 'text-green-600 bg-green-50'
+                  : 'text-red-500 bg-red-50'
                 }`}
             >
               {change}

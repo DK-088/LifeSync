@@ -6,7 +6,7 @@ import Chart from '../components/Chart';
 import WalletCard from '../components/WalletCard';
 import SpendingCard from '../components/SpendingCard';
 import TransactionTable from '../components/TransactionTable';
-import { Calendar, Plus, ChevronDown } from 'lucide-react';
+import { Calendar, Plus, ChevronDown, TrendingUp, TrendingDown, DollarSign, Wallet } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   return (
@@ -65,6 +65,7 @@ const Dashboard: React.FC = () => {
                 isPositive={true}
                 lastMonthAmount="122320"
                 variant="purple"
+                icon={TrendingUp}
               />
               <MetricCard
                 title="Total Expenses"
@@ -73,6 +74,7 @@ const Dashboard: React.FC = () => {
                 isPositive={false}
                 lastMonthAmount="90,860"
                 variant="white"
+                icon={TrendingDown}
               />
               <MetricCard
                 title="Net Profit"
@@ -81,6 +83,7 @@ const Dashboard: React.FC = () => {
                 isPositive={true}
                 lastMonthAmount="72320"
                 variant="white"
+                icon={DollarSign}
               />
               <MetricCard
                 title="Cash Balance"
@@ -89,6 +92,7 @@ const Dashboard: React.FC = () => {
                 isPositive={false}
                 lastMonthAmount="610560"
                 variant="white"
+                icon={Wallet}
               />
             </div>
 

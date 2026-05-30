@@ -20,6 +20,10 @@ import {
   ArrowUpRight,
   Download,
   ChevronDown,
+  TrendingUp,
+  TrendingDown,
+  Wallet,
+  Calendar,
 } from 'lucide-react';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -164,6 +168,7 @@ const Analytics: React.FC = () => {
               isPositive={true}
               lastMonthAmount="6,24,000"
               variant="purple"
+              icon={TrendingUp}
             />
             <MetricCard
               title="Total Expenses"
@@ -172,6 +177,7 @@ const Analytics: React.FC = () => {
               isPositive={false}
               lastMonthAmount="5,13,000"
               variant="white"
+              icon={TrendingDown}
             />
             <MetricCard
               title="Net Savings"
@@ -180,6 +186,7 @@ const Analytics: React.FC = () => {
               isPositive={true}
               lastMonthAmount="2,07,000"
               variant="white"
+              icon={Wallet}
             />
             <MetricCard
               title="Avg. Monthly"
@@ -188,6 +195,7 @@ const Analytics: React.FC = () => {
               isPositive={true}
               lastMonthAmount="55,260"
               variant="white"
+              icon={Calendar}
             />
           </div>
 
