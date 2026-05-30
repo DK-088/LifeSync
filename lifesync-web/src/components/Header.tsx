@@ -1,5 +1,14 @@
 import React from 'react';
 import { Search, Bell, ChevronDown } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+
+const navItems = [
+  { label: 'Dashboard', to: '/dashboard' },
+  { label: 'Analytics', to: '/analytics' },
+  { label: 'Invoice', to: '/invoice' },
+  { label: 'Joint Savings', to: '/savings' },
+  { label: 'Calendar', to: '/calendar' },
+];
 
 const Header: React.FC = () => {
   return (
@@ -11,11 +20,21 @@ const Header: React.FC = () => {
       
       {/* Center: Navigation Tabs (Absolute Centered) */}
       <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-        <NavTab label="Dashboard" active />
-        <NavTab label="Analytics" />
-        <NavTab label="Invoice" />
-        <NavTab label="Joint Savings" />
-        <NavTab label="Calendar" />
+        {navItems.map(({ label, to }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              `px-8 py-2.5 rounded-full text-[15px] font-normal tracking-tight transition-all truncate min-w-[100px] text-center ${
+                isActive
+                  ? 'bg-gradient-to-r from-[#6D3FD8] to-[#9A6BF2] text-white shadow-md shadow-primary/10 tracking-wider'
+                  : 'text-[#383838] bg-[#F6F8F9]/80 hover:bg-slate-100 transition-colors'
+              }`
+            }
+          >
+            {label}
+          </NavLink>
+        ))}
       </nav>
 
       {/* Right Side: Actions Section */}
@@ -48,16 +67,5 @@ const Header: React.FC = () => {
     </header>
   );
 };
-
-// Helper Component for Tabs
-const NavTab = ({ label, active = false }: { label: string, active?: boolean }) => (
-  <button className={`px-8 py-2.5 rounded-full text-[15px] font-normal tracking-tight transition-all truncate min-w-[100px] ${
-    active 
-      ? 'bg-gradient-to-r from-[#6D3FD8] to-[#9A6BF2] text-white shadow-md shadow-primary/10 tracking-wider' 
-      : 'text-[#383838] bg-[#F6F8F9]/80 hover:bg-slate-100 transition-colors'
-  }`}>
-    {label}
-  </button>
-);
 
 export default Header;

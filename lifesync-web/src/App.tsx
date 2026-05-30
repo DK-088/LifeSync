@@ -1,9 +1,17 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
+import Analytics from './pages/Analytics';
 import './App.css';
 
 function App() {
   return (
-    <Dashboard />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/analytics" element={<Analytics />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
