@@ -223,12 +223,12 @@ export default function CalendarPage() {
             style={{ flex: panelOpen ? '0 0 38%' : '0 0 0%', opacity: panelOpen ? 1 : 0, width: panelOpen ? undefined : 0 }}
           >
             {selectedDate && (
-              <div className="h-full bg-white rounded-[28px] border border-slate-100 shadow-[0_4px_30px_rgb(0,0,0,0.02)] flex flex-col overflow-hidden">
+              <div className="h-full bg-white rounded-[20px] border border-slate-100 shadow-[0_4px_30px_rgb(0,0,0,0.02)] flex flex-col overflow-hidden">
 
                 {/* Panel Header */}
                 <div className="px-6 pt-6 pb-4 border-b border-slate-100 flex items-start justify-between flex-shrink-0">
                   <div>
-                    <p className="text-[12px] font-semibold text-[#7C3AED] uppercase tracking-widest mb-1">
+                    <p className="text-[14px] font-medium text-[#7C3AED] tracking-widest mb-1">
                       {selectedDate.toLocaleDateString('en-IN', { weekday: 'long' })}
                     </p>
                     <h2 className="text-[26px] font-semibold text-[#383838] leading-tight">
@@ -248,16 +248,15 @@ export default function CalendarPage() {
                   {/* Events Section */}
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-[14px] font-semibold text-[#383838]">Events</h3>
-                      <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#EDE9FE] text-[#7C3AED]">
+                      <h3 className="text-[15px] font-medium text-[#383838]">Events</h3>
+                      <span className="text-[12px] font-bold px-2.5 py-1 rounded-full bg-[#EDE9FE] text-[#7C3AED]">
                         {dayEvents.length} Scheduled
                       </span>
                     </div>
 
                     {dayEvents.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-6 rounded-2xl bg-[#F6F8F9] text-center">
-                        <span className="text-2xl mb-2">📅</span>
-                        <p className="text-[13px] text-slate-400">No events this day</p>
+                        <p className="text-[14px] text-[#383838]">No Events on this Day</p>
                       </div>
                     ) : (
                       <div className="space-y-2.5">
@@ -289,7 +288,7 @@ export default function CalendarPage() {
                   {/* Expenses Section */}
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-[14px] font-semibold text-[#383838]">Expenses</h3>
+                      <h3 className="text-[15px] font-medium text-[#383838]">Expenses</h3>
                       {dayExpenses.length > 0 && (
                         <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#ECFDF5] text-[#059669]">
                           {dayExpenses.length} Transaction{dayExpenses.length > 1 ? 's' : ''}
@@ -299,8 +298,7 @@ export default function CalendarPage() {
 
                     {dayExpenses.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-6 rounded-2xl bg-[#F6F8F9] text-center">
-                        <span className="text-2xl mb-2">💳</span>
-                        <p className="text-[13px] text-slate-400">No Transactions recorded</p>
+                        <p className="text-[14px] text-[#383838]">No Transactions recorded</p>
                       </div>
                     ) : (
                       <div className="space-y-2.5">
@@ -313,8 +311,8 @@ export default function CalendarPage() {
                                 {exp.type === 'credit' ? '↑' : '↓'}
                               </div>
                               <div>
-                                <p className="text-[13px] font-semibold text-[#383838]">{exp.label}</p>
-                                <p className="text-[11px] text-slate-400">{exp.category}</p>
+                                <p className="text-[15px] font-semibold text-[#383838]">{exp.label}</p>
+                                <p className="text-[12px] text-slate-400">{exp.category}</p>
                               </div>
                             </div>
                             <span className={`text-[14px] font-bold ${exp.type === 'credit' ? 'text-[#059669]' : 'text-[#383838]'}`}>

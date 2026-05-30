@@ -51,14 +51,14 @@ interface EventCalendarProps {
 
 // ─── Color Map ───────────────────────────────────────────────────────────────
 const COLOR_MAP: Record<string, { bg: string; text: string; border: string; pill: string }> = {
-  sky:     { bg: '#EFF6FF', text: '#0284C7', border: '#BAE6FD', pill: '#0284C7' },
-  amber:   { bg: '#FFFBEB', text: '#D97706', border: '#FDE68A', pill: '#D97706' },
-  orange:  { bg: '#FFF7ED', text: '#EA580C', border: '#FED7AA', pill: '#EA580C' },
+  sky: { bg: '#EFF6FF', text: '#0284C7', border: '#BAE6FD', pill: '#0284C7' },
+  amber: { bg: '#FFFBEB', text: '#D97706', border: '#FDE68A', pill: '#D97706' },
+  orange: { bg: '#FFF7ED', text: '#EA580C', border: '#FED7AA', pill: '#EA580C' },
   emerald: { bg: '#ECFDF5', text: '#059669', border: '#A7F3D0', pill: '#059669' },
-  violet:  { bg: '#EDE9FE', text: '#7C3AED', border: '#DDD6FE', pill: '#7C3AED' },
-  rose:    { bg: '#FFF1F2', text: '#E11D48', border: '#FECDD3', pill: '#E11D48' },
-  indigo:  { bg: '#EEF2FF', text: '#4338CA', border: '#C7D2FE', pill: '#4338CA' },
-  teal:    { bg: '#F0FDFA', text: '#0D9488', border: '#99F6E4', pill: '#0D9488' },
+  violet: { bg: '#EDE9FE', text: '#7C3AED', border: '#DDD6FE', pill: '#7C3AED' },
+  rose: { bg: '#FFF1F2', text: '#E11D48', border: '#FECDD3', pill: '#E11D48' },
+  indigo: { bg: '#EEF2FF', text: '#4338CA', border: '#C7D2FE', pill: '#4338CA' },
+  teal: { bg: '#F0FDFA', text: '#0D9488', border: '#99F6E4', pill: '#0D9488' },
 };
 const getColor = (color?: string) => COLOR_MAP[color ?? 'violet'] ?? COLOR_MAP['violet'];
 
@@ -92,12 +92,11 @@ interface ModalProps {
 }
 
 const EventModal: React.FC<ModalProps> = ({ initialDate, existingEvent, onSave, onDelete, onClose }) => {
-  const [title,       setTitle]       = useState(existingEvent?.title ?? '');
+  const [title, setTitle] = useState(existingEvent?.title ?? '');
   const [description, setDescription] = useState(existingEvent?.description ?? '');
-  const [location,    setLocation]    = useState(existingEvent?.location ?? '');
-  const [color,       setColor]       = useState(existingEvent?.color ?? 'violet');
-  const [allDay,      setAllDay]      = useState(existingEvent?.allDay ?? false);
-  const [startStr,    setStartStr]    = useState(
+  const [color, setColor] = useState(existingEvent?.color ?? 'violet');
+  const [allDay, setAllDay] = useState(existingEvent?.allDay ?? false);
+  const [startStr, setStartStr] = useState(
     existingEvent ? format(existingEvent.start, "yyyy-MM-dd'T'HH:mm") : format(initialDate, "yyyy-MM-dd'T'09:00")
   );
   const [endStr, setEndStr] = useState(
@@ -107,14 +106,13 @@ const EventModal: React.FC<ModalProps> = ({ initialDate, existingEvent, onSave, 
   const handleSave = () => {
     if (!title.trim()) return;
     onSave({
-      id:          existingEvent?.id ?? genId(),
-      title:       title.trim(),
+      id: existingEvent?.id ?? genId(),
+      title: title.trim(),
       description: description.trim(),
-      location:    location.trim(),
       color,
       allDay,
       start: allDay ? startOfDay(new Date(startStr)) : new Date(startStr),
-      end:   allDay ? endOfDay(new Date(endStr))     : new Date(endStr),
+      end: allDay ? endOfDay(new Date(endStr)) : new Date(endStr),
     });
     onClose();
   };
@@ -125,27 +123,27 @@ const EventModal: React.FC<ModalProps> = ({ initialDate, existingEvent, onSave, 
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-[28px] border border-slate-100 shadow-2xl p-8 w-full max-w-[460px] mx-4 relative"
+        className="bg-white rounded-[20px] border border-slate-100 shadow-2xl p-6 w-full max-w-[480px] mx-1 relative"
         onClick={e => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-all active:scale-90"
+          className="absolute top-8 right-5 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-all active:scale-90"
         >
           <X size={15} />
         </button>
 
-        <h2 className="text-[20px] font-semibold text-[#383838] mb-1">
+        <h2 className="text-[22px] font-medium text-[#383838] mb-0.5">
           {existingEvent ? 'Edit Event' : 'New Event'}
         </h2>
-        <p className="text-[13px] text-slate-400 mb-6">
+        <p className="text-[13px] font-normal text-[#656669] mb-6">
           {existingEvent ? 'Update event details' : 'Add a new event to your calendar'}
         </p>
 
         <div className="space-y-4">
           {/* Title */}
           <div>
-            <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Title *</label>
+            <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block ml-2">Title *</label>
             <input
               autoFocus
               value={title}
@@ -170,12 +168,12 @@ const EventModal: React.FC<ModalProps> = ({ initialDate, existingEvent, onSave, 
           {!allDay ? (
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Start</label>
+                <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block ml-2">Start</label>
                 <input type="datetime-local" value={startStr} onChange={e => setStartStr(e.target.value)}
                   className="w-full px-3 py-3 rounded-2xl border border-slate-200 text-[13px] text-[#383838] focus:outline-none focus:border-[#9A6BF2] transition-all bg-[#F6F8F9]" />
               </div>
               <div>
-                <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">End</label>
+                <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block ml-2">End</label>
                 <input type="datetime-local" value={endStr} onChange={e => setEndStr(e.target.value)}
                   className="w-full px-3 py-3 rounded-2xl border border-slate-200 text-[13px] text-[#383838] focus:outline-none focus:border-[#9A6BF2] transition-all bg-[#F6F8F9]" />
               </div>
@@ -195,16 +193,9 @@ const EventModal: React.FC<ModalProps> = ({ initialDate, existingEvent, onSave, 
             </div>
           )}
 
-          {/* Location */}
-          <div>
-            <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Location</label>
-            <input value={location} onChange={e => setLocation(e.target.value)} placeholder="e.g. Office, Zoom"
-              className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-[14px] text-[#383838] focus:outline-none focus:border-[#9A6BF2] focus:ring-2 focus:ring-[#9A6BF2]/10 transition-all bg-[#F6F8F9]" />
-          </div>
-
           {/* Description */}
           <div>
-            <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Description</label>
+            <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block ml-2">Description</label>
             <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Optional details..."
               rows={2}
               className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-[14px] text-[#383838] focus:outline-none focus:border-[#9A6BF2] focus:ring-2 focus:ring-[#9A6BF2]/10 transition-all bg-[#F6F8F9] resize-none" />
@@ -212,8 +203,8 @@ const EventModal: React.FC<ModalProps> = ({ initialDate, existingEvent, onSave, 
 
           {/* Color */}
           <div>
-            <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-2 block">Color</label>
-            <div className="flex gap-2 flex-wrap">
+            <label className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-2 block ml-2">Color</label>
+            <div className="flex gap-2 flex-wrap ml-2">
               {COLORS.map(col => {
                 const cc = getColor(col);
                 return (
@@ -273,8 +264,8 @@ const MonthView: React.FC<{
   onEventClick: (event: CalendarEvent, e: React.MouseEvent) => void;
 }> = ({ currentDate, events, selectedDate, onDayClick, onEventClick }) => {
   const start = startOfWeek(startOfMonth(currentDate));
-  const end   = endOfWeek(endOfMonth(currentDate));
-  const days  = eachDayOfInterval({ start, end });
+  const end = endOfWeek(endOfMonth(currentDate));
+  const days = eachDayOfInterval({ start, end });
 
   const eventsForDay = (day: Date) =>
     events.filter(ev =>
@@ -294,24 +285,22 @@ const MonthView: React.FC<{
       {/* Day cells */}
       <div className="grid grid-cols-7 flex-1" style={{ gridTemplateRows: `repeat(${days.length / 7}, minmax(100px, 1fr))` }}>
         {days.map((day, idx) => {
-          const dayEvts   = eventsForDay(day);
-          const today      = isToday(day);
-          const inMonth    = isSameMonth(day, currentDate);
+          const dayEvts = eventsForDay(day);
+          const today = isToday(day);
+          const inMonth = isSameMonth(day, currentDate);
           const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
           return (
             <div
               key={idx}
               onClick={() => onDayClick(day)}
-              className={`border-b border-r border-slate-100 p-1.5 flex flex-col gap-1 cursor-pointer transition-all ${
-                isSelected ? 'bg-[#F3EEFF] ring-2 ring-inset ring-[#9A6BF2]/30' :
-                inMonth ? 'hover:bg-[#FAFBFF]' : 'bg-[#FAFBFD]'
-              } ${idx % 7 === 0 ? 'border-l-0' : ''}`}
+              className={`border-b border-r border-slate-100 p-1.5 flex flex-col gap-1 cursor-pointer transition-all ${isSelected ? 'bg-[#F3EEFF] ring-2 ring-inset ring-[#9A6BF2]/30' :
+                  inMonth ? 'hover:bg-[#FAFBFF]' : 'bg-[#FAFBFD]'
+                } ${idx % 7 === 0 ? 'border-l-0' : ''}`}
             >
-              <span className={`text-[13px] font-semibold self-start w-7 h-7 flex items-center justify-center rounded-full transition-all ${
-                today ? 'bg-gradient-to-br from-[#6D3FD8] to-[#9A6BF2] text-white' :
-                isSelected ? 'bg-[#7C3AED] text-white' :
-                inMonth ? 'text-[#383838] hover:text-[#7C3AED]' : 'text-slate-300'
-              }`}>
+              <span className={`text-[13px] font-semibold self-start w-7 h-7 flex items-center justify-center rounded-full transition-all ${today ? 'bg-gradient-to-br from-[#6D3FD8] to-[#9A6BF2] text-white' :
+                  isSelected ? 'bg-[#7C3AED] text-white' :
+                    inMonth ? 'text-[#383838] hover:text-[#7C3AED]' : 'text-slate-300'
+                }`}>
                 {format(day, 'd')}
               </span>
               <div className="flex flex-col gap-0.5">
@@ -353,9 +342,8 @@ const TimeGrid: React.FC<{
         {days.map((day, i) => (
           <div key={i} className={`flex-1 text-center py-2 ${i < days.length - 1 ? 'border-r border-slate-100' : ''}`}>
             <div className="text-[11px] font-semibold text-slate-400 uppercase">{format(day, 'EEE')}</div>
-            <div className={`text-[18px] font-semibold mx-auto w-9 h-9 flex items-center justify-center rounded-full transition-all ${
-              isToday(day) ? 'bg-gradient-to-br from-[#6D3FD8] to-[#9A6BF2] text-white' : 'text-[#383838]'
-            }`}>
+            <div className={`text-[18px] font-semibold mx-auto w-9 h-9 flex items-center justify-center rounded-full transition-all ${isToday(day) ? 'bg-gradient-to-br from-[#6D3FD8] to-[#9A6BF2] text-white' : 'text-[#383838]'
+              }`}>
               {format(day, 'd')}
             </div>
           </div>
@@ -415,7 +403,7 @@ const TimeGrid: React.FC<{
 
               {/* Events */}
               {eventsForDay(day).map(ev => {
-                const topPct  = eventTopPct(ev);
+                const topPct = eventTopPct(ev);
                 const heightPct = eventHeightPct(ev);
                 const c = getColor(ev.color);
                 return (
@@ -424,11 +412,11 @@ const TimeGrid: React.FC<{
                     onClick={e => { e.stopPropagation(); onEventClick(ev, e); }}
                     className="absolute left-1 right-1 rounded-xl px-2 py-1.5 text-left overflow-hidden transition-all hover:brightness-95 active:scale-[0.98] z-10"
                     style={{
-                      top:    `calc(${topPct}% + 1px)`,
+                      top: `calc(${topPct}% + 1px)`,
                       height: `calc(${heightPct}% - 2px)`,
                       background: c.bg,
                       border: `1.5px solid ${c.border}`,
-                      color:  c.text,
+                      color: c.text,
                     }}
                   >
                     <p className="text-[12px] font-bold leading-tight truncate">{ev.title}</p>
@@ -470,19 +458,19 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
   selectedDate,
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [view,        setView]        = useState<ViewMode>('month');
-  const [modal,       setModal]       = useState<{ date: Date; event?: CalendarEvent } | null>(null);
+  const [view, setView] = useState<ViewMode>('month');
+  const [modal, setModal] = useState<{ date: Date; event?: CalendarEvent } | null>(null);
 
   // Navigation
   const goBack = () => {
     if (view === 'month') setCurrentDate(d => subMonths(d, 1));
-    if (view === 'week')  setCurrentDate(d => subWeeks(d, 1));
-    if (view === 'day')   setCurrentDate(d => subDays(d, 1));
+    if (view === 'week') setCurrentDate(d => subWeeks(d, 1));
+    if (view === 'day') setCurrentDate(d => subDays(d, 1));
   };
   const goForward = () => {
     if (view === 'month') setCurrentDate(d => addMonths(d, 1));
-    if (view === 'week')  setCurrentDate(d => addWeeks(d, 1));
-    if (view === 'day')   setCurrentDate(d => addDays(d, 1));
+    if (view === 'week') setCurrentDate(d => addWeeks(d, 1));
+    if (view === 'day') setCurrentDate(d => addDays(d, 1));
   };
 
   const title = view === 'month'
@@ -500,11 +488,11 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
 
   const handleSave = (event: CalendarEvent) => {
     if (modal?.event) onEventUpdate?.(event);
-    else              onEventAdd?.(event);
+    else onEventAdd?.(event);
   };
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-white rounded-[28px] border border-slate-100 overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.02)]">
+    <div className="flex flex-col h-full min-h-0 bg-white rounded-[20px] border border-slate-100 overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.02)] py-3">
 
       {/* ── Toolbar ── */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 flex-shrink-0">
@@ -532,11 +520,10 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
           <div className="flex items-center bg-[#F6F8F9] rounded-full p-1 gap-1">
             {(['month', 'week', 'day'] as ViewMode[]).map(v => (
               <button key={v} onClick={() => setView(v)}
-                className={`px-4 py-2 rounded-full text-[13px] font-medium capitalize transition-all cursor-pointer ${
-                  view === v
+                className={`px-4 py-2 rounded-full text-[13px] font-medium capitalize transition-all cursor-pointer ${view === v
                     ? 'bg-gradient-to-r from-[#6D3FD8] to-[#9A6BF2] text-white shadow-sm'
                     : 'text-slate-500 hover:text-slate-700'
-                }`}>
+                  }`}>
                 {v}
               </button>
             ))}
