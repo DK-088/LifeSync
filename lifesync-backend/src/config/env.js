@@ -15,6 +15,12 @@ const env = {
   MAX_FILE_SIZE: parseInt(process.env.MAX_FILE_SIZE) || 5 * 1024 * 1024,
   RATE_LIMIT_WINDOW_MS: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000,
   RATE_LIMIT_MAX_REQUESTS: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
+  SMTP_HOST: process.env.SMTP_HOST || null,
+  SMTP_PORT: parseInt(process.env.SMTP_PORT) || 587,
+  SMTP_USER: process.env.SMTP_USER || null,
+  SMTP_PASS: process.env.SMTP_PASS || null,
+  FROM_EMAIL: process.env.FROM_EMAIL || 'noreply@lifesync.ai',
+  FROM_NAME: process.env.FROM_NAME || 'LifeSync AI',
 };
 
 const requiredEnvVars = ['MONGO_URI', 'JWT_SECRET', 'AES_SECRET_KEY'];

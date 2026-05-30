@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { encrypt, decrypt } = require('../utils/encryption');
 
 const transactionSchema = new mongoose.Schema(
   {
@@ -19,15 +20,32 @@ const transactionSchema = new mongoose.Schema(
       default: null,
     },
     merchant: { type: String, trim: true, default: 'Unknown' },
-    notificationText: { type: String, trim: true },
+    notificationText: {
+      type: String,
+      trim: true,
+      get: (val) => val ? decrypt(val) : null,
+      set: (val) => val ? encrypt(val) : null,
+    },
     category: { type: String, default: 'Others' },
     transactionType: {
       type: String,
       enum: ['debit', 'credit'],
       required: true,
     },
-    upiId: { type: String, trim: true, default: null },
-    referenceId: { type: String, trim: true, default: null },
+    upiId: {
+      type: String,
+      trim: true,
+      default: null,
+      get: (val) => val ? decrypt(val) : null,
+      set: (val) => val ? encrypt(val) : null,
+    },
+    referenceId: {
+      type: String,
+      trim: true,
+      default: null,
+      get: (val) => val ? decrypt(val) : null,
+      set: (val) => val ? encrypt(val) : null,
+    },
     bankName: { type: String, trim: true, default: null },
     timestamp: { type: Date, default: Date.now },
     isProcessed: { type: Boolean, default: false },
@@ -37,7 +55,11 @@ const transactionSchema = new mongoose.Schema(
       default: null,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true },
+  }
 );
 
 transactionSchema.index({ userId: 1, timestamp: -1 });

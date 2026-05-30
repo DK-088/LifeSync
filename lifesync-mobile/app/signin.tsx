@@ -10,41 +10,129 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Dimensions,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft, Mail, Lock, Eye, EyeOff } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
 import { SocialIcon } from "@rneui/themed";
+import { LinearGradient } from "expo-linear-gradient";
+import { authApi } from "../src/services/apiClient";
+import Snackbar from "../src/components/Snackbar";
+
+const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("screen");
 
 export default function SignInScreen() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // Realtime validation states
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validateEmail = (val: string) => {
+    setEmail(val);
+    if (!val.trim()) {
+      setEmailError("");
+      return;
+    }
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(val.trim())) {
+      setEmailError("Please enter a valid email address.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const validatePassword = (val: string) => {
+    setPassword(val);
+    if (!val.trim()) {
+      setPasswordError("");
+      return;
+    }
+    if (val.length < 8) {
+      setPasswordError("Password must be at least 8 characters.");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  // Snackbar local states
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error" | "info">("info");
+
+  const showSnackbar = (message: string, type: "success" | "error" | "info" = "info") => {
+    setSnackbarMessage(message);
+    setSnackbarType(type);
+    setSnackbarVisible(true);
+  };
+
+  const handleSignIn = async () => {
+    if (!email.trim()) {
+      setEmailError("Please enter your email address.");
+      return;
+    }
+    if (emailError) return;
+    
+    if (!password.trim()) {
+      setPasswordError("Please enter your password.");
+      return;
+    }
+    if (passwordError) return;
+
+    setLoading(true);
+    try {
+      await authApi.login(email.trim().toLowerCase(), password.trim());
+      setLoading(false);
+      router.push("/analytics");
+    } catch (error: any) {
+      setLoading(false);
+      console.warn("[SIGNIN_ERROR]", error.message || error);
+      showSnackbar(
+        error.message || "Unable to connect to the server. Please check if the backend is running.",
+        "error"
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
+      {/* Fixed Background Image using physical screen size */}
       <ImageBackground
         source={require("../assets/Arc_bg.png")}
-        style={styles.backgroundImage}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+            position: "absolute",
+          }
+        ]}
+        imageStyle={styles.backgroundImageStyle}
         resizeMode="cover"
-      >
-        <SafeAreaView style={styles.safeArea}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-          >
-            <ScrollView contentContainerStyle={styles.scrollContent}>
-              {/* Header */}
-              <TouchableOpacity
-                onPress={() => router.back()}
-                style={styles.backButton}
-              >
-                <ArrowLeft color="#fff" size={24} />
-              </TouchableOpacity>
+      />
+
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            {/* Header */}
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={styles.backButton}
+            >
+              <ArrowLeft color="#fff" size={24} />
+            </TouchableOpacity>
 
               <View style={styles.header}>
                 <Text style={styles.title}>Welcome Back</Text>
@@ -55,51 +143,81 @@ export default function SignInScreen() {
               <BlurView intensity={20} tint="dark" style={styles.glassCard}>
                 <View style={styles.inputGroup}>
                   <Text style={styles.inputLabel}>Email Address</Text>
-                  <View style={styles.inputWrapper}>
-                    <Mail color="rgba(255,255,255,0.4)" size={20} style={styles.inputIcon} />
+                  <View style={[
+                    styles.inputWrapper,
+                    emailError ? styles.inputWrapperError : null
+                  ]}>
+                    <Mail 
+                      color={emailError ? "#ef4444" : "rgba(255,255,255,0.4)"} 
+                      size={20} 
+                      style={styles.inputIcon} 
+                    />
                     <TextInput
                       placeholder="Enter your email"
-                      placeholderTextColor="rgba(255,255,255,0.3)"
+                      placeholderTextColor="rgba(255, 255, 255, 0.53)"
                       style={styles.input}
                       value={email}
-                      onChangeText={setEmail}
+                      onChangeText={validateEmail}
                       keyboardType="email-address"
                       autoCapitalize="none"
                     />
                   </View>
+                  {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
                 </View>
 
                 <View style={styles.inputGroup}>
                   <Text style={styles.inputLabel}>Password</Text>
-                  <View style={styles.inputWrapper}>
-                    <Lock color="rgba(255,255,255,0.4)" size={20} style={styles.inputIcon} />
+                  <View style={[
+                    styles.inputWrapper,
+                    passwordError ? styles.inputWrapperError : null
+                  ]}>
+                    <Lock 
+                      color={passwordError ? "#ef4444" : "rgba(255,255,255,0.4)"} 
+                      size={20} 
+                      style={styles.inputIcon} 
+                    />
                     <TextInput
                       placeholder="Enter your password"
-                      placeholderTextColor="rgba(255,255,255,0.3)"
+                      placeholderTextColor="rgba(255, 255, 255, 0.53)"
                       style={styles.input}
                       value={password}
-                      onChangeText={setPassword}
+                      onChangeText={validatePassword}
                       secureTextEntry={!showPassword}
                     />
                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                       {showPassword ? (
-                        <EyeOff color="rgba(255,255,255,0.4)" size={20} />
+                        <EyeOff color={passwordError ? "#ef4444" : "rgba(255,255,255,0.4)"} size={20} />
                       ) : (
-                        <Eye color="rgba(255,255,255,0.4)" size={20} />
+                        <Eye color={passwordError ? "#ef4444" : "rgba(255,255,255,0.4)"} size={20} />
                       )}
                     </TouchableOpacity>
                   </View>
+                  {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
                 </View>
 
-                <TouchableOpacity style={styles.forgotPassword}>
+                <TouchableOpacity 
+                  style={styles.forgotPassword}
+                  onPress={() => router.push("/forgot-password")}
+                >
                   <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.signInButton}
-                  onPress={() => router.push("/analytics")}
+                  onPress={handleSignIn}
+                  disabled={loading}
+                  activeOpacity={0.8}
                 >
-                  <Text style={styles.signInButtonText}>Sign In</Text>
+                  <LinearGradient
+                    colors={["#9900ff", "#9900ff"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.signInGradient}
+                  >
+                    <Text style={styles.signInButtonText}>
+                      {loading ? "Signing In..." : "Sign In"}
+                    </Text>
+                  </LinearGradient>
                 </TouchableOpacity>
               </BlurView>
 
@@ -135,14 +253,20 @@ export default function SignInScreen() {
               {/* Footer */}
               <View style={styles.footer}>
                 <Text style={styles.footerText}>Don't have an account? </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => router.push("/signup")}>
                   <Text style={styles.signUpText}>Sign Up</Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
           </KeyboardAvoidingView>
         </SafeAreaView>
-      </ImageBackground>
+
+      <Snackbar
+        visible={snackbarVisible}
+        message={snackbarMessage}
+        type={snackbarType}
+        onDismiss={() => setSnackbarVisible(false)}
+      />
     </View>
   );
 }
@@ -154,6 +278,9 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
+  },
+  backgroundImageStyle: {
+    opacity: 0.5,
   },
   safeArea: {
     flex: 1,
@@ -184,14 +311,14 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: "Outfit_400Regular",
     fontSize: 16,
-    color: "rgba(255,255,255,0.6)",
+    color: "rgba(255, 255, 255, 0.81)",
   },
   glassCard: {
-    backgroundColor: "rgba(255,255,255,0.05)",
+    backgroundColor: "rgba(255, 255, 255, 0.03)",
     borderRadius: 32,
     padding: 24,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.1)",
+    borderColor: "rgba(255, 255, 255, 0.08)",
     overflow: "hidden",
   },
   inputGroup: {
@@ -200,19 +327,19 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontFamily: "Outfit_500Medium",
     fontSize: 14,
-    color: "#fff",
+    color: "rgba(255, 255, 255, 0.75)",
     marginBottom: 8,
     marginLeft: 4,
   },
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.05)",
+    backgroundColor: "rgba(255, 255, 255, 0.03)",
     borderRadius: 16,
     paddingHorizontal: 16,
     height: 56,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.05)",
+    borderColor: "rgba(255, 255, 255, 0.08)",
   },
   inputIcon: {
     marginRight: 12,
@@ -229,25 +356,24 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     fontFamily: "Outfit_500Medium",
-    fontSize: 14,
-    color: "rgba(255,255,255,0.4)",
+    fontSize: 13,
+    color: "#ffffffff",
   },
   signInButton: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
+    borderRadius: 28,
     height: 56,
+    overflow: "hidden",
+  },
+  signInGradient: {
+    width: "100%",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#fff",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
   },
   signInButtonText: {
-    fontFamily: "Outfit_600SemiBold",
+    fontFamily: "Outfit_500Medium",
     fontSize: 18,
-    color: "#08080f",
+    color: "#fff",
   },
   footer: {
     flexDirection: "row",
@@ -257,12 +383,12 @@ const styles = StyleSheet.create({
   footerText: {
     fontFamily: "Outfit_400Regular",
     fontSize: 16,
-    color: "rgba(255,255,255,0.4)",
+    color: "rgba(255, 255, 255, 0.60)",
   },
   signUpText: {
     fontFamily: "Outfit_600SemiBold",
     fontSize: 16,
-    color: "#fff",
+    color: "#c084fc",
   },
   dividerRow: {
     flexDirection: "row",
@@ -273,12 +399,12 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: "rgba(255,255,255,0.1)",
+    backgroundColor: "rgba(255, 255, 255, 0.08)",
   },
   dividerText: {
     fontFamily: "Outfit_400Regular",
     fontSize: 14,
-    color: "rgba(255,255,255,0.35)",
+    color: "rgba(255, 255, 255, 0.60)",
     marginHorizontal: 16,
   },
   socialRow: {
@@ -295,5 +421,16 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.1)",
     margin: 0,
     padding: 0,
+  },
+  errorText: {
+    fontFamily: "Outfit_400Regular",
+    fontSize: 12,
+    color: "#ef4444",
+    marginTop: 4,
+    marginLeft: 4,
+  },
+  inputWrapperError: {
+    borderColor: "rgba(239, 68, 68, 0.4)",
+    backgroundColor: "rgba(239, 68, 68, 0.03)",
   },
 });

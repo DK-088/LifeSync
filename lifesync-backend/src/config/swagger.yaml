@@ -109,8 +109,6 @@ paths:
                 email: { type: string }
                 password: { type: string, minLength: 8 }
                 phone: { type: string }
-                monthlyIncome: { type: number }
-                savingsGoal: { type: number }
       responses:
         201:
           description: User registered successfully
@@ -153,6 +151,68 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/User" }
+
+  /api/auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Send password reset OTP email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string }
+      responses:
+        200:
+          description: Verification code sent successfully
+        404:
+          description: No account found with this email address
+        400:
+          description: Bad request
+
+  /api/auth/verify-otp:
+    post:
+      tags: [Auth]
+      summary: Verify the 6-digit OTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, otp]
+              properties:
+                email: { type: string }
+                otp: { type: string, minLength: 6, maxLength: 6 }
+      responses:
+        200:
+          description: Verification code is valid
+        400:
+          description: Invalid reset request or expired/incorrect code
+
+  /api/auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Reset user password using verified OTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, otp, password]
+              properties:
+                email: { type: string }
+                otp: { type: string, minLength: 6, maxLength: 6 }
+                password: { type: string, minLength: 8 }
+      responses:
+        200:
+          description: Password updated successfully
+        400:
+          description: Invalid request, incorrect or expired OTP
 
   /api/expenses:
     get:

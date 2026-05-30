@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const { encrypt, decrypt } = require('../utils/encryption');
 
 const userSchema = new mongoose.Schema(
   {
@@ -26,7 +27,8 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       trim: true,
-      match: [/^[6-9]\d{9}$/, 'Please provide a valid Indian phone number'],
+      get: (val) => val ? decrypt(val) : null,
+      set: (val) => val ? encrypt(val) : null,
     },
     monthlyIncome: {
       type: Number,
@@ -59,11 +61,19 @@ const userSchema = new mongoose.Schema(
       push: { type: Boolean, default: true },
       sms: { type: Boolean, default: false },
     },
+    resetPasswordOTP: {
+      type: String,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    toJSON: { virtuals: true, getters: true },
+    toObject: { virtuals: true, getters: true },
   }
 );
 

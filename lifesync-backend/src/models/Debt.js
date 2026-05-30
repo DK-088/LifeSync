@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { encrypt, decrypt } = require('../utils/encryption');
 
 const debtSchema = new mongoose.Schema(
   {
@@ -29,10 +30,20 @@ const debtSchema = new mongoose.Schema(
     paidStatus: { type: Boolean, default: false },
     paidAt: { type: Date, default: null },
     paidAmount: { type: Number, default: 0 },
-    contact: { type: String, trim: true, default: null },
+    contact: {
+      type: String,
+      trim: true,
+      default: null,
+      get: (val) => val ? decrypt(val) : null,
+      set: (val) => val ? encrypt(val) : null,
+    },
     interestRate: { type: Number, default: 0, min: 0 },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true },
+  }
 );
 
 debtSchema.index({ userId: 1, paidStatus: 1 });

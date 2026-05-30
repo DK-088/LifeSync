@@ -71,4 +71,4 @@ process.on('unhandledRejection', (reason) => {
   server.close(() => process.exit(1));
 });
 
-startServer();
+startServer(); // Reloaded with SMTP configurations
