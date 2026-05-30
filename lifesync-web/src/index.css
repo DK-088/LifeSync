@@ -5,16 +5,53 @@
   --color-primary: #7c3aed;
   --color-primary-light: #a78bfa;
   --color-primary-dark: #5b21b6;
-  --color-bg-main: #f8fafc;
-  --color-card-bg: #ffffff;
-  --color-text-main: #1e293b;
-  --color-text-muted: #64748b;
-  
+  --color-bg-main: #0D0D1A;
+  --color-card-bg: #111127;
+  --color-text-main: #ffffff;
+  --color-text-muted: rgba(255,255,255,0.4);
+
   --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
   body {
-    @apply bg-bg-main text-text-main font-sans antialiased;
+    background-color: #0D0D1A;
+    color: #ffffff;
+    font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(124, 58, 237, 0.3);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(124, 58, 237, 0.5);
+  }
+
+  /* Hide default input number spinners */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Native select dark styling */
+  select option {
+    background: #1a1a38;
+    color: #fff;
   }
 }
