@@ -26,6 +26,7 @@ const analyticsRoutes = require('./routes/analytics.routes');
 const reminderRoutes = require('./routes/reminder.routes');
 const debtRoutes = require('./routes/debt.routes');
 const goalRoutes = require('./routes/goal.routes');
+const subscriptionRoutes = require('./routes/subscription.routes');
 
 const app = express();
 
@@ -91,6 +92,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/reminders', reminderRoutes);
 app.use('/api/debts', debtRoutes);
 app.use('/api/goals', goalRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
 
 // ============================================
 // Error Handling

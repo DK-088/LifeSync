@@ -100,4 +100,25 @@ const getMe = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, refreshToken, logout, getMe };
+// @desc    Update user profile settings
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateProfile = async (req, res, next) => {
+  try {
+    const { name, phone, monthlyIncome, savingsGoal } = req.body;
+    const user = await User.findById(req.user._id);
+    if (!user) return sendError(res, 404, 'User not found.');
+
+    if (name !== undefined) user.name = name;
+    if (phone !== undefined) user.phone = phone;
+    if (monthlyIncome !== undefined) user.monthlyIncome = Number(monthlyIncome);
+    if (savingsGoal !== undefined) user.savingsGoal = Number(savingsGoal);
+
+    await user.save();
+    return sendSuccess(res, 200, 'Profile updated successfully.', user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { register, login, refreshToken, logout, getMe, updateProfile };
